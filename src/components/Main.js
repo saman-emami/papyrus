@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react"
-import NewNote from "./NewNote"
-import NoteCard from "./NoteCard"
-import NoteColumns from "./NoteColumns"
-import NoteEditor from "./NoteEditor"
+import React, { useEffect, useState } from 'react'
+import NewNote from './NewNote'
+import NoteCard from './NoteCard'
+import NoteColumns from './NoteColumns'
+import NoteEditor from './NoteEditor'
 
 export default function Main({ setNotesArray, notesArray, ...props }) {
 	const [isInitial, setisInitial] = useState(true)
 
 	const [deleteAlert, setDeleteAlert] = useState(false)
 	const [editLabels, setEditLabels] = useState([])
-	const [isEditing, setIsEditing] = useState("none")
+	const [isEditing, setIsEditing] = useState('none')
 	const NoteCardElements = notesArray.map((item, index) => (
 		<NoteCard
 			labels={item.labels}
@@ -24,7 +24,7 @@ export default function Main({ setNotesArray, notesArray, ...props }) {
 	function handleAddNote(newNote) {
 		const creationTime = new Date()
 		newNote.creationTime = creationTime
-		localStorage.setItem("notesArray", JSON.stringify([...notesArray, newNote]))
+		localStorage.setItem('notesArray', JSON.stringify([...notesArray, newNote]))
 		setNotesArray((prevNotesArray) => {
 			return [...prevNotesArray, newNote]
 		})
@@ -32,7 +32,7 @@ export default function Main({ setNotesArray, notesArray, ...props }) {
 	useEffect(() => {
 		if (!isInitial) {
 			localStorage.setItem(
-				"notesArray",
+				'notesArray',
 				JSON.stringify(
 					notesArray.map((item, index) =>
 						index === isEditing ? { ...item, labels: editLabels } : item
@@ -53,7 +53,7 @@ export default function Main({ setNotesArray, notesArray, ...props }) {
 	}, [editLabels, isEditing])
 
 	function toggleEditor(index) {
-		if (index !== "none") {
+		if (index !== 'none') {
 			setEditLabels(notesArray[index].labels)
 		}
 		setIsEditing(index)
@@ -61,14 +61,14 @@ export default function Main({ setNotesArray, notesArray, ...props }) {
 	}
 
 	function autoSize(event) {
-		event.target.style.setProperty("height", event.target.scrollHeight + "px")
+		event.target.style.setProperty('height', event.target.scrollHeight + 'px')
 	}
 
 	function deleteNote() {
 		const deleteIndex = isEditing
-		setIsEditing("none")
+		setIsEditing('none')
 		localStorage.setItem(
-			"notesArray",
+			'notesArray',
 			JSON.stringify(notesArray.filter((item, index) => index !== deleteIndex))
 		)
 		setNotesArray((prevNotesArray) =>
@@ -77,7 +77,7 @@ export default function Main({ setNotesArray, notesArray, ...props }) {
 	}
 
 	return (
-		<main id="main-section" className="main-section">
+		<main id='main-section' className='main-section'>
 			<NoteEditor
 				deleteNote={deleteNote}
 				deleteAlert={deleteAlert}

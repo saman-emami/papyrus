@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import icons from '../styles/icons'
 
 export default function EditLabels(props) {
@@ -14,15 +14,29 @@ export default function EditLabels(props) {
 
 	function closeLabelEditor() {
 		if (props.editingLabels === true) {
-			props.setEditingLabels((prev) => !prev)
+			props.setEditingLabels(false)
 			props.labelEditorContainer.current.classList.toggle('open')
 			props.setLabelFilter('All')
+		}
+	}
+
+	function closeLabelEditorOnClickOutside(event) {
+		if (!props.labelEditorContainer.current.contains(event.target)) {
+			closeLabelEditor()
+			console.log('close')
 		}
 	}
 
 	function newLabelChange(event) {
 		setNewLabelInput(event.target.value)
 	}
+
+	useEffect(() => {
+		document.addEventListener('click', closeLabelEditorOnClickOutside)
+		return () => {
+			document.removeEventListener('click', closeLabelEditorOnClickOutside)
+		}
+	}, [props.editingLabels])
 
 	return (
 		<div
